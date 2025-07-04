@@ -1,0 +1,48 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Početna";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Dobrodošli u Event Manager</h1>
+    <p class="lead">Upravljajte događajima i pretplatite se na najbolje izvođače!</p>
+    
+    @if (!User.Identity?.IsAuthenticated == true)
+    {
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Prijavite se</h5>
+                        <p class="card-text">Već imate račun? Prijavite se i pristupite događajima.</p>
+                        <a asp-page="/Account/Login" class="btn btn-primary">Prijava</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Registrirajte se</h5>
+                        <p class="card-text">Nemate račun? Registrirajte se i počnite koristiti aplikaciju.</p>
+                        <a asp-page="/Account/Register" class="btn btn-success">Registracija</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Događaji</h5>
+                        <p class="card-text">Pogledajte dostupne događaje i pretplatite se na one koji vas zanimaju.</p>
+                        <a asp-page="/Events/Index" class="btn btn-primary">Pogledaj događaje</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div> 

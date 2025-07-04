@@ -1,0 +1,56 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registracija";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>Registracija</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.Ime" class="form-label">Ime</label>
+                        <input asp-for="Input.Ime" class="form-control" />
+                        <span asp-validation-for="Input.Ime" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.Email" class="form-label">Email</label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.Password" class="form-label">Lozinka</label>
+                        <input asp-for="Input.Password" type="password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Potvrda lozinke</label>
+                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Registriraj se</button>
+                    </div>
+                </form>
+                
+                <div class="mt-3">
+                    <p>Već imate račun? <a asp-page="/Account/Login">Prijavite se</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

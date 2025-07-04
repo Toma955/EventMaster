@@ -1,0 +1,102 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Događaji";
+}
+
+<div class="container">
+    <h1 class="mb-4">Događaji</h1>
+    
+    <div class="row" id="events-container">
+        <!-- Events will be loaded here via JavaScript -->
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadEvents();
+});
+
+async function loadEvents() {
+    try {
+        const response = await fetch('/api/events');
+        const events = await response.json();
+        
+        const container = document.getElementById('events-container');
+        container.innerHTML = '';
+        
+        events.forEach(event => {
+            const eventCard = createEventCard(event);
+            container.appendChild(eventCard);
+        });
+    } catch (error) {
+        console.error('Error loading events:', error);
+    }
+}
+
+function createEventCard(event) {
+    const card = document.createElement('div');
+    card.className = 'col-md-6 col-lg-4 mb-4';
+    
+    const date = new Date(event.datum).toLocaleDateString('hr-HR');
+    
+    card.innerHTML = `
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">${event.naziv}</h5>
+                <p class="card-text">${event.opis}</p>
+                <p class="card-text"><small class="text-muted">
+                    <strong>Datum:</strong> ${date}<br>
+                    <strong>Lokacija:</strong> ${event.lokacija}
+                </small></p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary btn-sm" onclick="subscribeToEvent(${event.id})">
+                    Pretplati se
+                </button>
+                <button class="btn btn-outline-danger btn-sm" onclick="unsubscribeFromEvent(${event.id})">
+                    Odjavi se
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+async function subscribeToEvent(eventId) {
+    try {
+        const response = await fetch(`/api/events/${eventId}/subscribe`, {
+            method: 'POST'
+        });
+        
+        if (response.ok) {
+            alert('Uspješno ste se pretplatili na događaj!');
+        } else {
+            const error = await response.text();
+            alert('Greška: ' + error);
+        }
+    } catch (error) {
+        console.error('Error subscribing to event:', error);
+        alert('Greška pri pretplati na događaj');
+    }
+}
+
+async function unsubscribeFromEvent(eventId) {
+    try {
+        const response = await fetch(`/api/events/${eventId}/unsubscribe`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            alert('Uspješno ste se odjavili s događaja!');
+        } else {
+            const error = await response.text();
+            alert('Greška: ' + error);
+        }
+    } catch (error) {
+        console.error('Error unsubscribing from event:', error);
+        alert('Greška pri odjavi s događaja');
+    }
+}
+</script> 

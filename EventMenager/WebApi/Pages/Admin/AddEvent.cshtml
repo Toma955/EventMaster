@@ -1,0 +1,58 @@
+@page
+@model WebApi.Pages.Admin.AddEventModel
+@{
+    ViewData["Title"] = "Dodaj Događaj";
+}
+
+<div class="container mt-4">
+    <h2>Dodaj Novi Događaj</h2>
+    
+    <form method="post" class="mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Event.Naziv" class="form-label">Naziv događaja</label>
+                    <input asp-for="Event.Naziv" class="form-control" required />
+                    <span asp-validation-for="Event.Naziv" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Event.Opis" class="form-label">Opis</label>
+                    <textarea asp-for="Event.Opis" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Event.Opis" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Event.Datum" class="form-label">Datum i vrijeme</label>
+                    <input asp-for="Event.Datum" type="datetime-local" class="form-control" required />
+                    <span asp-validation-for="Event.Datum" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Event.Lokacija" class="form-label">Lokacija</label>
+                    <input asp-for="Event.Lokacija" class="form-control" required />
+                    <span asp-validation-for="Event.Lokacija" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Event.EventTypeId" class="form-label">Vrsta događaja</label>
+                    <select asp-for="Event.EventTypeId" class="form-select" required>
+                        <option value="">Odaberi vrstu događaja</option>
+                        @foreach (var eventType in Model.EventTypes)
+                        {
+                            <option value="@eventType.Id">@eventType.Naziv</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Event.EventTypeId" class="text-danger"></span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Dodaj Događaj</button>
+                <a asp-page="/Admin/Index" class="btn btn-secondary">Odustani</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

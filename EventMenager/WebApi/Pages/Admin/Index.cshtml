@@ -1,0 +1,138 @@
+@page
+@model WebApi.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-4">
+    <h1>Admin Panel</h1>
+    
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Upravljanje Događajima</h5>
+                </div>
+                <div class="card-body">
+                    <a asp-page="/Admin/AddEvent" class="btn btn-primary mb-2">Dodaj Novi Događaj</a>
+                    <br>
+                    <a href="/api/events" class="btn btn-info">Pregledaj Sve Događaje</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Upravljanje Izvođačima</h5>
+                </div>
+                <div class="card-body">
+                    <a asp-page="/Admin/AddPerformer" class="btn btn-primary mb-2">Dodaj Novog Izvođača</a>
+                    <br>
+                    <a href="/api/events/performers" class="btn btn-info">Pregledaj Sve Izvođače</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Događaji</h5>
+                </div>
+                <div class="card-body">
+                    <div id="eventsList">
+                        <p>Učitavanje događaja...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Izvođači</h5>
+                </div>
+                <div class="card-body">
+                    <div id="performersList">
+                        <p>Učitavanje izvođača...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Load events
+        fetch('/api/events')
+            .then(response => response.json())
+            .then(events => {
+                const eventsList = document.getElementById('eventsList');
+                if (events.length === 0) {
+                    eventsList.innerHTML = '<p>Nema događaja.</p>';
+                    return;
+                }
+                
+                let html = '<div class="table-responsive"><table class="table table-striped">';
+                html += '<thead><tr><th>Naziv</th><th>Vrsta</th><th>Datum</th><th>Lokacija</th><th>Admin</th></tr></thead><tbody>';
+                
+                events.forEach(event => {
+                    html += `<tr>
+                        <td>${event.naziv}</td>
+                        <td>${event.eventType?.naziv || 'N/A'}</td>
+                        <td>${new Date(event.datum).toLocaleDateString()}</td>
+                        <td>${event.lokacija}</td>
+                        <td>${event.admin?.ime || 'N/A'}</td>
+                    </tr>`;
+                });
+                
+                html += '</tbody></table></div>';
+                eventsList.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading events:', error);
+                document.getElementById('eventsList').innerHTML = '<p class="text-danger">Greška pri učitavanju događaja.</p>';
+            });
+        
+        // Load performers
+        fetch('/api/events/performers')
+            .then(response => response.json())
+            .then(performers => {
+                const performersList = document.getElementById('performersList');
+                if (performers.length === 0) {
+                    performersList.innerHTML = '<p>Nema izvođača.</p>';
+                    return;
+                }
+                
+                let html = '<div class="table-responsive"><table class="table table-striped">';
+                html += '<thead><tr><th>Ime</th><th>Vrsta</th><th>Opis</th></tr></thead><tbody>';
+                
+                performers.forEach(performer => {
+                    html += `<tr>
+                        <td>${performer.ime}</td>
+                        <td>${performer.performerType?.naziv || 'N/A'}</td>
+                        <td>${performer.opis || 'Nema opisa'}</td>
+                    </tr>`;
+                });
+                
+                html += '</tbody></table></div>';
+                performersList.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading performers:', error);
+                document.getElementById('performersList').innerHTML = '<p class="text-danger">Greška pri učitavanju izvođača.</p>';
+            });
+    </script>
+} 

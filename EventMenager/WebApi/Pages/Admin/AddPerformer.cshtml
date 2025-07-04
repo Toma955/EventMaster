@@ -1,0 +1,46 @@
+@page
+@model WebApi.Pages.Admin.AddPerformerModel
+@{
+    ViewData["Title"] = "Dodaj Izvođača";
+}
+
+<div class="container mt-4">
+    <h2>Dodaj Novog Izvođača</h2>
+    
+    <form method="post" class="mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Performer.Ime" class="form-label">Ime izvođača</label>
+                    <input asp-for="Performer.Ime" class="form-control" required />
+                    <span asp-validation-for="Performer.Ime" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Performer.Opis" class="form-label">Opis</label>
+                    <textarea asp-for="Performer.Opis" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Performer.Opis" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Performer.PerformerTypeId" class="form-label">Vrsta izvođača</label>
+                    <select asp-for="Performer.PerformerTypeId" class="form-select" required>
+                        <option value="">Odaberi vrstu izvođača</option>
+                        @foreach (var performerType in Model.PerformerTypes)
+                        {
+                            <option value="@performerType.Id">@performerType.Naziv</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Performer.PerformerTypeId" class="text-danger"></span>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Dodaj Izvođača</button>
+                <a asp-page="/Admin/Index" class="btn btn-secondary">Odustani</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
