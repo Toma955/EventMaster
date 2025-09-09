@@ -33,8 +33,6 @@ namespace WebApp.Pages.Account
                 return Page();
             }
 
-            // TODO: Implementirati stvarnu autentikaciju s bazom podataka
-            // Za sada koristimo mock podatke
             if (Input.Email == "admin@test.com" && Input.Password == "admin123")
             {
                 var claims = new List<Claim>

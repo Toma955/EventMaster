@@ -21,11 +21,9 @@ namespace WebApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // EventPerformer composite key
             modelBuilder.Entity<EventPerformer>()
                 .HasKey(ep => new { ep.EventId, ep.PerformerId });
 
-            // EventPerformer relationships
             modelBuilder.Entity<EventPerformer>()
                 .HasOne(ep => ep.Event)
                 .WithMany(e => e.EventPerformers)
@@ -36,7 +34,6 @@ namespace WebApi.Data
                 .WithMany(p => p.EventPerformers)
                 .HasForeignKey(ep => ep.PerformerId);
 
-            // Event relationships
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Admin)
                 .WithMany()
@@ -48,13 +45,11 @@ namespace WebApi.Data
                 .WithMany(et => et.Events)
                 .HasForeignKey(e => e.EventTypeId);
 
-            // Performer relationships
             modelBuilder.Entity<Performer>()
                 .HasOne(p => p.PerformerType)
                 .WithMany(pt => pt.Performers)
                 .HasForeignKey(p => p.PerformerTypeId);
 
-            // Subscription relationships
             modelBuilder.Entity<Subscription>()
                 .HasOne(s => s.User)
                 .WithMany()
@@ -67,7 +62,6 @@ namespace WebApi.Data
                 .HasForeignKey(s => s.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Unique constraint for subscription
             modelBuilder.Entity<Subscription>()
                 .HasIndex(s => new { s.UserId, s.EventId })
                 .IsUnique();

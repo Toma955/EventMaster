@@ -51,7 +51,6 @@ namespace WebApi.Pages.Account
                 return Page();
             }
 
-            // Provjeri postoji li već korisnik s tim emailom
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == Input.Email);
             
@@ -61,7 +60,6 @@ namespace WebApi.Pages.Account
                 return Page();
             }
 
-            // Dodaj novog korisnika
             var newUser = new User
             {
                 Ime = Input.Ime,
@@ -74,7 +72,6 @@ namespace WebApi.Pages.Account
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            // Prijavi korisnika
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, newUser.Email),

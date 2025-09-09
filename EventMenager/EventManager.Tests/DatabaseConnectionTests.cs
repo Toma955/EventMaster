@@ -8,7 +8,6 @@ namespace EventManager.Tests
         [Fact]
         public void CanConnectToDatabase()
         {
-            // Connection string - koristi isti kao u appsettings.json
             var connectionString = "Server=(localdb)\\mssqllocaldb;Database=EventManagerDB;Integrated Security=true;TrustServerCertificate=true;MultipleActiveResultSets=true";
 
             using (var connection = new SqlConnection(connectionString))

@@ -14,7 +14,6 @@ namespace WebApi.Models
         
         public int PerformerTypeId { get; set; }
         
-        // Navigation properties
         public virtual PerformerType PerformerType { get; set; } = null!;
         public virtual ICollection<EventPerformer> EventPerformers { get; set; } = new List<EventPerformer>();
     }

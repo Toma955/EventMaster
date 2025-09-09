@@ -34,7 +34,6 @@ namespace WebApi.Pages.Admin
                 return Page();
             }
 
-            // Set admin ID (hardcoded for now, should come from authentication)
             Event.AdminId = 1;
             Event.CreatedAt = DateTime.Now;
 

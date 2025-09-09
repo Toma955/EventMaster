@@ -42,10 +42,7 @@ namespace WebApp.Pages.Account
                 return Page();
             }
 
-            // TODO: Implementirati stvarnu registraciju s bazom podataka
-            // Za sada samo simuliramo uspješnu registraciju
             
-            // Simuliramo kreiranje korisnika s rolom "User"
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, Input.Email),

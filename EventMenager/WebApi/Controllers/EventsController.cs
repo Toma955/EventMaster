@@ -45,7 +45,6 @@ namespace WebApi.Controllers
             return Ok(events);
         }
 
-        // GET: api/events/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
         {
@@ -75,7 +74,6 @@ namespace WebApi.Controllers
             return CreatedAtAction(nameof(GetEvent), new { id = eventItem.Id }, eventItem);
         }
 
-        // PUT: api/events/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] Event eventItem)
         {
@@ -96,7 +94,6 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/events/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
@@ -109,7 +106,6 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        // GET: api/events/performers
         [HttpGet("performers")]
         public async Task<IActionResult> GetPerformers()
         {
@@ -120,7 +116,6 @@ namespace WebApi.Controllers
             return Ok(performers);
         }
 
-        // POST: api/events/performers
         [HttpPost("performers")]
         public async Task<IActionResult> CreatePerformer([FromBody] Performer performer)
         {
@@ -133,7 +128,6 @@ namespace WebApi.Controllers
             return CreatedAtAction(nameof(GetPerformers), new { id = performer.Id }, performer);
         }
 
-        // PUT: api/events/performers/{id}
         [HttpPut("performers/{id}")]
         public async Task<IActionResult> UpdatePerformer(int id, [FromBody] Performer performer)
         {
@@ -152,7 +146,6 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/events/performers/{id}
         [HttpDelete("performers/{id}")]
         public async Task<IActionResult> DeletePerformer(int id)
         {
@@ -165,7 +158,6 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/events/{eventId}/performers/{performerId}
         [HttpPost("{eventId}/performers/{performerId}")]
         public async Task<IActionResult> AssignPerformerToEvent(int eventId, int performerId)
         {
@@ -187,7 +179,6 @@ namespace WebApi.Controllers
             return Ok("Performer successfully assigned to event");
         }
 
-        // DELETE: api/events/{eventId}/performers/{performerId}
         [HttpDelete("{eventId}/performers/{performerId}")]
         public async Task<IActionResult> RemovePerformerFromEvent(int eventId, int performerId)
         {
@@ -203,7 +194,6 @@ namespace WebApi.Controllers
             return Ok("Performer successfully removed from event");
         }
 
-        // POST: api/events/{id}/subscribe
         [HttpPost("{eventId}/subscribe")]
         public async Task<IActionResult> SubscribeToEvent(int eventId)
         {
@@ -214,7 +204,7 @@ namespace WebApi.Controllers
             var subscription = new Subscription
             {
                 EventId = eventId,
-                UserId = 1, // TODO: Get from current user
+                UserId = 1,
                 SubscribedAt = DateTime.Now
             };
 
@@ -224,12 +214,11 @@ namespace WebApi.Controllers
             return Ok("Successfully subscribed to event");
         }
 
-        // DELETE: api/events/{id}/unsubscribe
         [HttpDelete("{eventId}/unsubscribe")]
         public async Task<IActionResult> UnsubscribeFromEvent(int eventId)
         {
             var subscription = await _context.Subscriptions
-                .FirstOrDefaultAsync(s => s.EventId == eventId && s.UserId == 1); // TODO: Get from current user
+                .FirstOrDefaultAsync(s => s.EventId == eventId && s.UserId == 1);
             
             if (subscription == null)
                 return NotFound("Subscription not found");

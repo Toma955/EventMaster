@@ -23,7 +23,6 @@ namespace WebApi.Models
         public int AdminId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
-        // Navigation properties
         public virtual EventType EventType { get; set; } = null!;
         public virtual User Admin { get; set; } = null!;
         public virtual ICollection<EventPerformer> EventPerformers { get; set; } = new List<EventPerformer>();

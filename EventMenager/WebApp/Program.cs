@@ -1,10 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
-// Add authentication
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
     {
@@ -20,7 +18,6 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

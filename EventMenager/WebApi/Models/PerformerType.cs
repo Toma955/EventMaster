@@ -13,7 +13,6 @@ namespace WebApi.Models
         [StringLength(200)]
         public string? Opis { get; set; }
         
-        // Navigation property
         public virtual ICollection<Performer> Performers { get; set; } = new List<Performer>();
     }
 } 
