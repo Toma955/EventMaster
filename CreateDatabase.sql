@@ -3,7 +3,11 @@ GO
 
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'EventManagerDB')
 BEGIN
-    CREATE DATABASE EventManagerDB;
+    CREATE DATABASE EventManagerDB 
+    ON (NAME = 'EventManagerDB', 
+        FILENAME = 'D:\EventMaster-1\EventMenager\Database\EventManagerDB.mdf')
+    LOG ON (NAME = 'EventManagerDB_Log', 
+            FILENAME = 'D:\EventMaster-1\EventMenager\Database\EventManagerDB_Log.ldf');
 END
 GO
 
